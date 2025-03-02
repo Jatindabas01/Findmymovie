@@ -20,6 +20,19 @@
     />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+      function checkDevice() {
+        if (window.innerWidth <= 600) {
+          document.body.classList.add("mobile-view");
+        } else {
+          document.body.classList.remove("mobile-view");
+        }
+      }
+    
+      window.onload = checkDevice; 
+      window.onresize = checkDevice;
+    </script>
+    
+    <script>
       tailwind.config = {
         theme: {
           extend: {
@@ -43,6 +56,51 @@
         },
       };
     </script>
+    <style>
+      /* 🖥 Default Desktop View (Jo Abhi Hai) */
+    
+      /* 📱 Mobile View (600px se chhoti screens ke liye) */
+      @media (max-width: 600px) {
+        body {
+          font-size: 14px; /* Text chhota hoga */
+          padding: 10px;
+        }
+        .container {
+          width: 100%;
+          flex-direction: column;
+        }
+      }
+    
+      /* 📟 Tablet View (600px - 1024px) */
+      @media (max-width: 1024px) {
+        body {
+          font-size: 16px;
+        }
+        .container {
+          width: 90%;
+        }
+      }
+    
+      /* 📺 TV View (1600px se badi screens ke liye) */
+      @media (min-width: 1600px) {
+        body {
+          font-size: 24px; /* Bada text */
+        }
+        .container {
+          width: 80%;
+          margin: auto;
+        }
+      }
+    </style>
+    
+    <style>
+      img, video {
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+    
+    
     <style>
       :where([class^="ri-"])::before { content: "\f3c2"; }
       .light-mode {
@@ -120,7 +178,7 @@
           <a href="index.html" class="text-white/60 hover:text-white transition-colors"
             >Home</a
           >
-          <a href="https://in.bookmyshow.com/explore/upcoming-movies-mumbai" class="text-white/60 hover:text-white transition-colors"
+          <a href="https://www.netflix.com/in/browse/genre/34399" class="text-white/60 hover:text-white transition-colors"
             >Browse</a
           >
           <!-- <a href="#" class="text-white/60 hover:text-white transition-colors"
