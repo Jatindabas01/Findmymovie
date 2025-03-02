@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FindMyMovie - Discover Your Next Favorite Movie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#6366f1",
+              secondary: "#1e293b",
+            },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      .light-mode {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      }
+
+      .light-mode .text-white {
+        color: #1e293b;
+      }
+
+      .light-mode .text-white\/60 {
+        color: rgba(30, 41, 59, 0.6);
+      }
+
+      .light-mode .text-white\/40 {
+        color: rgba(30, 41, 59, 0.4);
+      }
+
+      .light-mode .bg-white\/5 {
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+
+      .light-mode .bg-black\/30 {
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+
+      .light-mode .border-white\/10 {
+        border-color: rgba(30, 41, 59, 0.1);
+      }
+
+      .light-mode .bg-white\/10 {
+        background-color: rgba(30, 41, 59, 0.1);
+      }
+
+      .light-mode .hover\:bg-white\/20:hover {
+        background-color: rgba(30, 41, 59, 0.2);
+      }
+
+      .search-results {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      margin-top: 4px;
+      max-height: 400px;
+      overflow-y: auto;
+      }
+      .search-bar:focus + .search-results {
+      display: block;
+      }
+      .gradient-bg {
+      background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+      }
+      .movie-card {
+      transition: transform 0.3s ease;
+      }
+      .movie-card:hover {
+      transform: translateY(-4px);
+      }
+    </style>
+  </head>
+  <body class="gradient-bg min-h-screen font-['Poppins']">
+    <header
+      class="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-md"
+    >
+      <nav
+        class="container mx-auto px-6 py-4 flex items-center justify-between"
+      >
+        <a href="#" class="text-3xl font-['Pacifico'] text-white">logo</a>
+        <div class="flex items-center space-x-8">
+          <a href="#" class="text-white/60 hover:text-white transition-colors"
+            >Home</a
+          >
+          <a href="#" class="text-white/60 hover:text-white transition-colors"
+            >Browse</a
+          >
+          <a href="#" class="text-white/60 hover:text-white transition-colors"
+            >Watchlist</a
+          >
+          <a
+            href="login.html"
+            class="bg-primary text-white px-6 py-2 !rounded-button hover:bg-primary/90 transition-colors"
+            >Sign In</a
+          >
+          <button
+            id="themeToggle"
+            class="w-10 h-10 ml-4 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transition-colors"
+          >
+            <i class="ri-sun-line text-white"></i>
+          </button>
+        </div>
+      </nav>
+    </header>
+    <main class="container mx-auto px-6 pt-32 pb-20">
+      <section class="text-center max-w-4xl mx-auto mb-24">
+        <h1 class="text-6xl font-bold text-white mb-6 leading-tight">
+          Find Your Next Movie Adventure
+        </h1>
+        <p class="text-xl text-white/70 mb-12">
+          Discover millions of movies, TV shows and find where to watch them.
+        </p>
+        <div class="relative max-w-2xl mx-auto mb-8">
+          <div
+            class="absolute inset-y-0 left-4 flex items-center pointer-events-none"
+          >
+            <i class="ri-search-line text-gray-400 text-xl"></i>
+          </div>
+          <input
+            type="text"
+            class="search-bar w-full py-4 pl-12 pr-4 bg-white/10 border border-white/20 text-white placeholder-white/50 !rounded-button focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 text-lg"
+            placeholder="Search for movies, actors, or directors..."
+          />
+          <div class="search-results">
+            <div class="p-4 hover:bg-gray-50 cursor-pointer">
+              <div class="flex items-center">
+                <img
+                  src="https://public.readdy.ai/ai/img_res/765bc78eaec0beb8273bf08a4e5ec168.jpg"
+                  class="w-12 h-16 object-cover rounded mr-4"
+                />
+                <div>
+                  <h3 class="font-medium text-gray-900">Inception (2010)</h3>
+                  <p class="text-sm text-gray-500">Action, Sci-Fi</p>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 hover:bg-gray-50 cursor-pointer">
+              <div class="flex items-center">
+                <img
+                  src="https://public.readdy.ai/ai/img_res/761a43dbfab106bd463d4de321afbd0d.jpg"
+                  class="w-12 h-16 object-cover rounded mr-4"
+                />
+                <div>
+                  <h3 class="font-medium text-gray-900">Interstellar (2014)</h3>
+                  <p class="text-sm text-gray-500">Adventure, Drama, Sci-Fi</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3 mb-16">
+          <button
+            class="px-6 py-2 bg-white/10 text-white/80 hover:bg-white/20 !rounded-button transition-colors whitespace-nowrap"
+          >
+            Action
+          </button>
+          <button
+            class="px-6 py-2 bg-white/10 text-white/80 hover:bg-white/20 !rounded-button transition-colors whitespace-nowrap"
+          >
+            Comedy
+          </button>
+          <button
+            class="px-6 py-2 bg-white/10 text-white/80 hover:bg-white/20 !rounded-button transition-colors whitespace-nowrap"
+          >
+            Drama
+          </button>
+          <button
+            class="px-6 py-2 bg-white/10 text-white/80 hover:bg-white/20 !rounded-button transition-colors whitespace-nowrap"
+          >
+            Sci-Fi
+          </button>
+          <button
+            class="px-6 py-2 bg-white/10 text-white/80 hover:bg-white/20 !rounded-button transition-colors whitespace-nowrap"
+          >
+            Horror
+          </button>
+        </div>
+      </section>
+      <section class="mb-24">
+        <h2 class="text-3xl font-bold text-white mb-8">Trending Now</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="movie-card bg-white/5 rounded-lg overflow-hidden">
+            <img
+              src="https://public.readdy.ai/ai/img_res/2d7dc2f2a07d8d74475865665f02cc19.jpg"
+              class="w-full h-96 object-cover"
+            />
+            <div class="p-4">
+              <h3 class="text-white font-medium mb-2">Dune: Part Two</h3>
+              <p class="text-white/60 text-sm">Sci-Fi, Adventure</p>
+            </div>
+          </div>
+          <div class="movie-card bg-white/5 rounded-lg overflow-hidden">
+            <img
+              src="https://public.readdy.ai/ai/img_res/f259dab3d0c91abca218620badfc2cd3.jpg"
+              class="w-full h-96 object-cover"
+            />
+            <div class="p-4">
+              <h3 class="text-white font-medium mb-2">Deadpool 3</h3>
+              <p class="text-white/60 text-sm">Action, Comedy</p>
+            </div>
+          </div>
+          <div class="movie-card bg-white/5 rounded-lg overflow-hidden">
+            <img
+              src="https://public.readdy.ai/ai/img_res/5c6ffe44f76d9a9dc994f3cd8c162eb5.jpg"
+              class="w-full h-96 object-cover"
+            />
+            <div class="p-4">
+              <h3 class="text-white font-medium mb-2">Furiosa</h3>
+              <p class="text-white/60 text-sm">Action, Adventure</p>
+            </div>
+          </div>
+          <div class="movie-card bg-white/5 rounded-lg overflow-hidden">
+            <img
+              src="https://public.readdy.ai/ai/img_res/8f7ab32ac5ecfaf2c74a3031d829b8bb.jpg"
+              class="w-full h-96 object-cover"
+            />
+            <div class="p-4">
+              <h3 class="text-white font-medium mb-2">Joker: Folie à Deux</h3>
+              <p class="text-white/60 text-sm">Crime, Drama</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h2 class="text-3xl font-bold text-white mb-8">Coming Soon</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="movie-card bg-white/5 rounded-lg overflow-hidden">
+            <img
+              src="https://public.readdy.ai/ai/img_res/8bded28e950a95e45d0bb79d393ba230.jpg"
+              class="w-full h-96 object-cover"
+            />
+            <div class="p-4">
+              <h3 class="text-white font-medium mb-2">
+                Kingdom of the Planet of the Apes
+              </h3>
+              <p class="text-white/60 text-sm">Action, Sci-Fi</p>
+            </div>
+          </div>
+          <div class="movie-card bg-white/5 rounded-lg overflow-hidden">
+            <img
+              src="https://public.readdy.ai/ai/img_res/0ca65031da22cd261c00b5d8c12c4df7.jpg"
+              class="w-full h-96 object-cover"
+            />
+            <div class="p-4">
+              <h3 class="text-white font-medium mb-2">
+                Ghostbusters: Frozen Empire
+              </h3>
+              <p class="text-white/60 text-sm">Comedy, Fantasy</p>
+            </div>
+          </div>
+          <div class="movie-card bg-white/5 rounded-lg overflow-hidden">
+            <img
+              src="https://public.readdy.ai/ai/img_res/4166ef09a9ac647e11c2ade937de6829.jpg"
+              class="w-full h-96 object-cover"
+            />
+            <div class="p-4">
+              <h3 class="text-white font-medium mb-2">Inside Out 2</h3>
+              <p class="text-white/60 text-sm">Animation, Adventure</p>
+            </div>
+          </div>
+          <div class="movie-card bg-white/5 rounded-lg overflow-hidden">
+            <img
+              src="https://public.readdy.ai/ai/img_res/3352ca19a6921797dfd45db659b3539c.jpg"
+              class="w-full h-96 object-cover"
+            />
+            <div class="p-4">
+              <h3 class="text-white font-medium mb-2">
+                Godzilla x Kong: New Empire
+              </h3>
+              <p class="text-white/60 text-sm">Action, Sci-Fi</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="bg-black/30 backdrop-blur-md py-12">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <div>
+            <h3 class="text-white font-bold mb-4">About</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="text-white/60 hover:text-white transition-colors"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-white/60 hover:text-white transition-colors"
+                  >Careers</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-white/60 hover:text-white transition-colors"
+                  >Press</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-white font-bold mb-4">Support</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="text-white/60 hover:text-white transition-colors"
+                  >Help Center</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-white/60 hover:text-white transition-colors"
+                  >Contact Us</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-white/60 hover:text-white transition-colors"
+                  >FAQ</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-white font-bold mb-4">Legal</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="text-white/60 hover:text-white transition-colors"
+                  >Terms of Service</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-white/60 hover:text-white transition-colors"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-white/60 hover:text-white transition-colors"
+                  >Cookie Policy</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-white font-bold mb-4">Follow Us</h3>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transition-colors"
+              >
+                <i class="ri-twitter-x-line text-white"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transition-colors"
+              >
+                <i class="ri-facebook-line text-white"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transition-colors"
+              >
+                <i class="ri-instagram-line text-white"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-white/10 pt-8">
+          <p class="text-center text-white/40">
+            &copy; 2025 FindMyMovie. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const themeToggle = document.getElementById("themeToggle");
+      const body = document.body;
+      const themeIcon = themeToggle.querySelector("i");
+
+      themeToggle.addEventListener("click", () => {
+        body.classList.toggle("light-mode");
+
+        if (body.classList.contains("light-mode")) {
+          themeIcon.classList.remove("ri-sun-line");
+          themeIcon.classList.add("ri-moon-line");
+        } else {
+          themeIcon.classList.remove("ri-moon-line");
+          themeIcon.classList.add("ri-sun-line");
+        }
+      });
+    </script>
+  </body>
+</html>
